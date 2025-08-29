@@ -1,0 +1,228 @@
+<mujoco model="g1_with_floor">
+    <include file="./g1.xml"/>
+    <!-- Configuración de iluminación mejorada -->
+    <visual>
+        <headlight ambient="0.1 0.1 0.1" diffuse="0.7 0.7 0.7" specular="1 1 1"/>
+        <quality shadowsize="16384"/>
+        <!-- <map znear="0.01" zfar="50"/> -->
+    </visual>
+    <!-- Configuración de contactos más realista -->
+    <default>
+        <geom condim="6" friction="0.7 0.01 0.01" solimp="0.9 0.95 0.001" 
+              solref="0.02 1" density="1000"/>
+        <joint damping="0.1" stiffness="0"/>
+        <motor ctrllimited="true"/>
+    </default>
+
+    <asset>
+        <!-- Textura para el piso -->
+        <material name="floor_mat" texture="grid"/>
+        <texture name="wood_floor_tex" type="2d" builtin="checker" 
+                 rgb1="0.45 0.35 0.25" rgb2="0.55 0.45 0.35" 
+                 width="1024" height="1024" mark="edge" markrgb="0.3 0.2 0.1"/>
+        <material name="floor_realistic" texture="wood_floor_tex" 
+
+
+                  specular="0.15" shininess="0.3" reflectance="0.05"/>
+        <texture name="grid" type="2d" builtin="checker" 
+                 rgb1="0.3 0.5 0.3" rgb2="0.4 0.6 0.4" 
+                 width="512" height="512"/>
+        <texture name="oak_texture" type="2d" builtin="gradient" 
+                 rgb1="0.7 0.5 0.3" rgb2="0.8 0.6 0.4" 
+                 width="512" height="512"/>
+        <material name="wood_seat" texture="oak_texture" 
+                  specular="0.2" shininess="0.4" reflectance="0.02"/>
+        <material name="wood_back" rgba="0.75 0.55 0.35 1" 
+                  specular="0.15" shininess="0.3" reflectance="0.02"/>
+        <material name="wood_legs" rgba="0.65 0.45 0.25 1" 
+                  specular="0.1" shininess="0.2" reflectance="0.01"/>
+        <material name="wood_table_top" rgba="0.8 0.6 0.4 1" 
+                  specular="0.25" shininess="0.5" reflectance="0.03"/>
+        <material name="wood_table_dark" rgba="0.6 0.4 0.2 1" 
+                  specular="0.2" shininess="0.3" reflectance="0.02"/>
+        <material name="wood_table_legs" rgba="0.5 0.3 0.1 1" 
+                  specular="0.1" shininess="0.2" reflectance="0.01"/>
+        
+        <!-- Materiales para objetos -->
+        <material name="plastic_realistic" rgba="0.9 0.2 0.2 1" 
+                  specular="0.6" shininess="0.8" reflectance="0.1"/>
+        <material name="pencil_realistic" rgba="0.9 0.8 0.1 1" 
+                  specular="0.1" shininess="0.1" reflectance="0.01"/>
+        <material name="glass_realistic" rgba="0.8 0.9 1.0 0.6" 
+                  specular="0.9" shininess="0.9" reflectance="0.3"/>
+
+        <mesh name="plastic_mesh" file="./model_realistic/plastic.obj" scale="0.01 0.01 0.01"/>
+        <mesh name="pencil_mesh" file="./model_realistic/pencil.obj" scale="0.01 0.01 0.01"/>
+        <mesh name="glass_mesh" file="./model_realistic/glass.obj" scale="0.01 0.01 0.01"/>
+        <mesh name="bottle_mesh" file="./model_realistic/bottle.obj" scale="0.01 0.01 0.01"/>
+
+        <!-- Material para la sillita -->
+        <material name="wood" rgba="0.8 0.6 0.4 1" specular="0.1"/>
+        <material name="wood_dark" rgba="0.6 0.4 0.2 1" specular="0.1"/>
+        
+        <!-- Material para la naranja -->
+        <texture name="orange_texture" 
+             file="./assets/model_realistic/orange.png" 
+             type="2d" 
+             builtin="none" 
+             gridsize="1 1"/>
+        
+        <texture name="knife_texture" 
+             file="./assets/model_realistic/compare_4.png" 
+             type="2d" 
+             builtin="none" 
+             gridsize="1 1"/>
+
+        <texture name="apple_texture" 
+             file="./assets/model_realistic/apple_color.png" 
+             type="2d" 
+             builtin="none" 
+             gridsize="1 1"/>
+
+        <texture name="pear_texture" 
+             file="./assets/model_realistic/Pears.png" 
+             type="2d" 
+             builtin="none" 
+             gridsize="1 1"/>
+
+        <!-- 2. Material que usa la textura -->
+        <material name="orange_material" 
+              texture="orange_texture" 
+              specular="0.3"      
+              shininess="0.5"     
+              reflectance="0.1" 
+              rgba="1.0 0.7 0.2 1"/>
+
+        <material name="apple_material" 
+              texture="apple_texture" 
+              specular="0.3"      
+              shininess="0.5"     
+              reflectance="0.1" 
+              rgba="0.8 0.2 0.2 1"/>
+
+        <material name="pear_material" 
+              texture="pear_texture" 
+              specular="0.3"      
+              shininess="0.5"     
+              reflectance="0.1" 
+              rgba="1.0 0.7 0.2 1"/> 
+
+        <material name="knife_material" 
+              texture="knife_texture" 
+              specular="0.3"      
+              shininess="0.5"     
+              reflectance="0.1" 
+              rgba="1.0 0.7 0.2 1"/> 
+
+        <!-- 3. Malla 3D (el modelo .obj) -->
+        <mesh name="orange_mesh" 
+            file="./model_realistic/orange.obj" 
+            scale="0.01 0.01 0.01"/> 
+
+        <!-- Material para la botella -->
+        <texture name="wine_texture" 
+             file="./assets/model_realistic/WineEtiquette.png" 
+             type="2d" 
+             builtin="none" 
+             gridsize="1 1"/>
+
+        <!-- 2. Material que usa la botella -->
+        <material name="wine_material" 
+              texture="wine_texture" 
+              specular="0.3"      
+              shininess="0.5"     
+              reflectance="0.1" 
+              rgba="1.0 0.7 0.2 1"/> 
+
+        <!-- Malla 3d botella de vino -->
+        <mesh name="wine_mesh" 
+            file="./model_realistic/BottleOfWine.obj"
+            scale="0.01 0.01 0.01"/>
+
+        <mesh name="apple_mesh" 
+            file="./model_realistic/apple.obj"
+            scale="0.1 0.1 0.1"/>
+
+        <mesh name="pear_mesh" 
+            file="./model_realistic/10197_Pear.obj"
+            scale="0.007 0.007 0.007"/>
+
+        <mesh name="mug_mesh" 
+            file="./model_realistic/TazaQuintero.obj"
+            scale="0.01 0.01 0.01"/>
+
+        <mesh name="knife_mesh" 
+            file="./model_realistic/Knife Texture.obj"
+            scale="0.02 0.02 0.02"/>
+    
+    </asset>
+    <worldbody>
+        <light name="ceiling_light" pos="0 0 3" dir="0 0 -1" directional="false" 
+                diffuse="0.8 0.8 0.7" specular="0.3 0.3 0.3" attenuation="0 0.1 0.05"/>
+        <!-- <light name="side_light" pos="3 2 2" dir="-1 -0.5 -0.8" directional="false"
+               diffuse="0.4 0.5 0.6" specular="0.2 0.2 0.2" attenuation="0 0.05 0.02"/> -->
+        <!-- Piso principal -->
+        <geom name="floor" type="plane" size="2.5 2.5 0.1" material="floor_realistic"/>
+    
+
+        <!-- Sillita -->
+        <!-- <body name="chair" pos="0 0 0"> -->
+            <!-- Asiento -->
+            <!-- <geom name="chair_seat" type="box" size="0.3 0.3 0.05" pos="0 0 0.225" rgba="0.8 0.6 0.4 1" mass="5"/> -->
+            
+            <!-- Respaldo -->
+            <!-- <geom name="chair_back" type="box" size="0.05 0.3 0.3" pos="-0.25 0 0.5" rgba="0.8 0.6 0.4 1" mass="3"/> -->
+
+            <!-- <geom name="chair_leg1" type="cylinder" size="0.03 0.10" pos="0.2 0.2 0.10" rgba="0.6 0.4 0.2 1" mass="1"/> -->
+            <!-- <geom name="chair_leg2" type="cylinder" size="0.03 0.10" pos="0.2 -0.2 0.10" rgba="0.6 0.4 0.2 1" mass="1"/> -->
+            <!-- <geom name="chair_leg3" type="cylinder" size="0.03 0.10" pos="-0.2 0.2 0.10" rgba="0.6 0.4 0.2 1" mass="1"/> -->
+            <!-- <geom name="chair_leg4" type="cylinder" size="0.03 0.10" pos="-0.2 -0.2 0.10" rgba="0.6 0.4 0.2 1" mass="1"/> -->
+        <!-- </body> -->
+
+        <!-- Mesita -->
+        <body name="table" pos="1.15 0 0">
+            <!-- Tablero de la mesa -->
+            <geom name="table_top" type="box" size="0.5 0.8 0.05" pos="-0.4 0 0.75" rgba="0.7 0.5 0.3 1" mass="15"/>
+            
+            <!-- Patas de la mesa -->
+            <geom name="table_leg1" type="cylinder" size="0.04 0.5" pos="0.05 0.7 0.2" rgba="0.5 0.3 0.1 1" mass="3"/>
+            <geom name="table_leg2" type="cylinder" size="0.04 0.5" pos="0.05 -0.7 0.2" rgba="0.5 0.3 0.1 1" mass="3"/>
+            <geom name="table_leg3" type="cylinder" size="0.04 0.5" pos="-0.85 0.7 0.2" rgba="0.5 0.3 0.1 1" mass="3"/>
+            <geom name="table_leg4" type="cylinder" size="0.04 0.5" pos="-0.85 -0.7 0.2" rgba="0.5 0.3 0.1 1" mass="3"/>
+        </body>
+        
+        <body name="plastic_object" pos="0.65 0.1 0.82">
+            <geom type="mesh" mesh="plastic_mesh" rgba="0.8 0.2 0.2 1" mass="0.5"/>
+        </body>
+        
+        <body name="pencil_object" pos="0.6 -0.1 0.8">
+            <geom type="mesh" mesh="pencil_mesh" rgba="0.8 0.2 0.2 1" mass="0.1"/>
+        </body>
+
+        <body name="orange_object" pos="0.8 -0.1 0.8">
+            <geom type="mesh" mesh="orange_mesh" material="orange_material" mass="0.1"/>
+        </body>
+        
+        <body name="wine_object" pos="0.8 0.065 0.785">
+            <geom type="mesh" mesh="wine_mesh" material="wine_material" mass="0.1"/>
+        </body>
+
+        <body name="apple_object" pos="0.7 0.03 0.8" euler="90 0 0">
+            <geom type="mesh" mesh="apple_mesh" material="apple_material" mass="0.1"/>
+        </body>
+
+        <body name="pear_object" pos="0.6 0.03 0.85">
+            <geom type="mesh" mesh="pear_mesh" material="pear_material" mass="0.1"/>
+        </body>
+
+        <body name="knife_object" pos="0.6 -0.06 0.865">
+            <geom type="mesh" mesh="knife_mesh" material="knife_material" mass="0.1"/>
+        </body>
+
+    </worldbody>
+    <!-- Configuración de física más realista -->
+
+    <option timestep="0.001" iterations="50" solver="Newton" tolerance="1e-10" 
+            gravity="0 0 -9.81"/>
+
+</mujoco>

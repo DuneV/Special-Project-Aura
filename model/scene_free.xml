@@ -1,0 +1,86 @@
+<mujoco model="g1_with_floor">
+    <include file="./g1.xml"/>
+    <!-- Configuración de iluminación mejorada -->
+    <visual>
+        <headlight diffuse="0.4 0.4 0.4" ambient="0.3 0.3 0.3" specular="0.2 0.2 0.2"/>
+        <rgba haze="0.15 0.25 0.35 1"/>
+        <quality shadowsize="2048" offsamples="8"/>
+    </visual>
+    <worldbody>
+        <light name="ceiling_light" pos="0 0 3" dir="0 0 -1" directional="false" 
+                diffuse="0.8 0.8 0.7" specular="0.3 0.3 0.3" attenuation="0 0.1 0.05"/>
+        <!-- <light name="side_light" pos="3 2 2" dir="-1 -0.5 -0.8" directional="false"
+               diffuse="0.4 0.5 0.6" specular="0.2 0.2 0.2" attenuation="0 0.05 0.02"/> -->
+        <!-- Piso principal -->
+        <geom name="floor" type="plane" size="20 20 0.1" material="floor_realistic"/>
+    
+       <!--  <body name="box1" pos="2 2 0.5">
+            <geom type="box" size="0.3 0.3 0.5" rgba="0.8 0.2 0.2 1"/>
+        </body>
+
+        <body name="cylinder1" pos="-2 1 0.5">
+            <geom type="cylinder" size="0.2 0.5" rgba="0.2 0.2 0.8 1"/>
+        </body> -->
+
+    </worldbody>
+    
+    <asset>
+        <!-- Textura para el piso -->
+        <material name="floor_mat" texture="grid"/>
+        <texture name="wood_floor_tex" type="2d" builtin="checker" 
+                 rgb1="0.45 0.35 0.25" rgb2="0.55 0.45 0.35" 
+                 width="1024" height="1024" mark="edge" markrgb="0.3 0.2 0.1"/>
+        <material name="floor_realistic" texture="wood_floor_tex" 
+
+
+                  specular="0.15" shininess="0.3" reflectance="0.05"/>
+        <texture name="grid" type="2d" builtin="checker" 
+                 rgb1="0.3 0.5 0.3" rgb2="0.4 0.6 0.4" 
+                 width="512" height="512"/>
+        <texture name="oak_texture" type="2d" builtin="gradient" 
+                 rgb1="0.7 0.5 0.3" rgb2="0.8 0.6 0.4" 
+                 width="512" height="512"/>
+        <material name="wood_seat" texture="oak_texture" 
+                  specular="0.2" shininess="0.4" reflectance="0.02"/>
+        <material name="wood_back" rgba="0.75 0.55 0.35 1" 
+                  specular="0.15" shininess="0.3" reflectance="0.02"/>
+        <material name="wood_legs" rgba="0.65 0.45 0.25 1" 
+                  specular="0.1" shininess="0.2" reflectance="0.01"/>
+        <material name="wood_table_top" rgba="0.8 0.6 0.4 1" 
+                  specular="0.25" shininess="0.5" reflectance="0.03"/>
+        <material name="wood_table_dark" rgba="0.6 0.4 0.2 1" 
+                  specular="0.2" shininess="0.3" reflectance="0.02"/>
+        <material name="wood_table_legs" rgba="0.5 0.3 0.1 1" 
+                  specular="0.1" shininess="0.2" reflectance="0.01"/>
+        
+        <!-- Materiales para objetos -->
+        <material name="plastic_realistic" rgba="0.9 0.2 0.2 1" 
+                  specular="0.6" shininess="0.8" reflectance="0.1"/>
+        <material name="pencil_realistic" rgba="0.9 0.8 0.1 1" 
+                  specular="0.1" shininess="0.1" reflectance="0.01"/>
+        <material name="glass_realistic" rgba="0.8 0.9 1.0 0.6" 
+                  specular="0.9" shininess="0.9" reflectance="0.3"/>
+
+        <mesh name="plastic_mesh" file="./model_realistic/plastic.obj" scale="0.01 0.01 0.01"/>
+        <mesh name="pencil_mesh" file="./model_realistic/pencil.obj" scale="0.01 0.01 0.01"/>
+        <mesh name="glass_mesh" file="./model_realistic/glass.obj" scale="0.01 0.01 0.01"/>
+        <mesh name="apple_mesh" file="./model_realistic/apple.obj" scale="0.01 0.01 0.01"/>
+        <!-- Material para la sillita -->
+        <material name="wood" rgba="0.8 0.6 0.4 1" specular="0.1"/>
+        <material name="wood_dark" rgba="0.6 0.4 0.2 1" specular="0.1"/>
+    </asset>
+
+    <!-- Configuración de contactos más realista -->
+    <!-- Configuración de física más realista -->
+
+    <option timestep="0.001" iterations="50" solver="Newton" tolerance="1e-10" 
+            gravity="0 0 -9.81"/>
+    
+    <default>
+        <geom condim="6" friction="0.7 0.01 0.01" solimp="0.9 0.95 0.001" 
+              solref="0.02 1" density="1000"/>
+        <joint damping="0.1" stiffness="0"/>
+        <motor ctrllimited="true"/>
+    </default>
+
+</mujoco>
