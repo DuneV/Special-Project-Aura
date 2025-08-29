@@ -1,12 +1,14 @@
 import mujoco
 import mujoco.viewer
-import glfw
 import numpy as np
 import time
-import cv2
 from typing import Dict, Tuple, Optional
 
 class G1SimulationPipeline:
+    
+    
+    # Metodo constructor
+    
     def __init__(self, model_path: str):
         """Pipeline completo para simulación del G1 - Fase A """
         self.model = mujoco.MjModel.from_xml_path(model_path)
@@ -23,13 +25,27 @@ class G1SimulationPipeline:
         
         print(f"✓ Modelo cargado: {self.model.nq} DOF, {self.model.nbody} cuerpos")
     
+    # Verificación de modelo
+
     def verify_model(self):
         """Verificar dinámica y contactos del modelo"""
         print("\n=== VERIFICACIÓN DEL MODELO ===")
+        # numero de coordenadas generalizada por acticulación
+
         print(f"Grados de libertad: {self.model.nq}")
+        
+        # numero de actuadores
         print(f"Actuadores: {self.model.nu}")
+        
+        # numero de sensores
+
         print(f"Sensores: {self.model.nsensor}")
+        
+        # numero de cuerpos rigidos
+
         print(f"Cuerpos: {self.model.nbody}")
+
+        # numero de formas visuales de colision
         print(f"Geometrías: {self.model.ngeom}")
         
         # Test de estabilidad inicial
@@ -40,9 +56,11 @@ class G1SimulationPipeline:
         pos_drift = np.linalg.norm(self.data.qpos - initial_pos)
         print(f"Deriva de posición en 100 pasos: {pos_drift:.4f}")
         
-        # Resetear
+        # Resetear el robot a su posicion inicial
         mujoco.mj_resetData(self.model, self.data)
     
+    # Iniciar teleoperación
+
     def init_teleop(self):
         """Inicializar sistema de teleoperación (teclado por ahora)"""
         self.teleop_commands = np.zeros(self.model.nu)
@@ -51,6 +69,8 @@ class G1SimulationPipeline:
         print("✓ Teleoperación inicializada (controles de teclado)")
         print("  Controles: WASD (caminar), QE (rotar), IJKL (brazos)")
     
+    # Obtener datos de sensores
+
     def get_sensor_data(self) -> Dict:
         """Obtener todos los datos sensoriales"""
         sensor_data = {}
@@ -226,9 +246,12 @@ class G1SimulationPipeline:
         if sensor_data['sensors']:
             print(f" | Sensores MJ: {len(sensor_data['sensors'])}", end="")
     
+
+
+    
     def run_simulation(self, duration: float = 30.0, enable_walking: bool = False):
         """Ejecutar simulación completa con pipeline sensorial y teleoperación"""
-        print(f"\nIniciando simulación por {duration}s...")
+        print(f"Iniciando simulación por {duration}s...")
         print("Controles: Presiona 'W' para activar caminata, 'S' para parar")
         
         self.walking_enabled = enable_walking
@@ -263,26 +286,3 @@ class G1SimulationPipeline:
                 time.sleep(0.005)  # ~200 FPS máx
         
         print(f"\n✓ Simulación completada en {time.time() - start_time:.2f}s")
-
-def main():
-    """Función principal - Fase A completa"""
-    print("=" * 60)
-    print("UNITREE G1 - FASE A: Base física y sensorial")
-    print("=" * 60)
-    
-    # Ruta al modelo (ajusta según tu estructura)
-    model_path = "./model/scene_objects.xml"
-    
-    try:
-        # Inicializar pipeline
-        pipeline = G1SimulationPipeline(model_path)
-        
-        # Ejecutar simulación
-        pipeline.run_simulation(duration=20.0, enable_walking=True)
-        
-    except Exception as e:
-        print(f"Error: {e}")
-        print("Verifica que la ruta del modelo sea correcta")
-
-if __name__ == "__main__":
-    main()
