@@ -5,14 +5,15 @@ import unittest
 import tempfile
 import numpy as np
 
-from ..g1cameraCapture import G1CameraCapture  # ← Cambia "your_main_module" por el nombre real del archivo
+from ..g1cameraCapture import G1CameraCapture 
 
-# Asumiendo que tienes un archivo config.py con model_path
+# TODO: @DuneV necesitas actualizar los test para hacerlo para todo el batch de modelos. 
+
 try:
     from ..config import Config
     MODEL_PATH = Config().model_path
 except:
-    MODEL_PATH = "../model/scene_objects.xml"  # ← CAMBIA ESTO
+    MODEL_PATH = "../model/scene_objects.xml" 
 
 class TestG1CameraCapture(unittest.TestCase):
 

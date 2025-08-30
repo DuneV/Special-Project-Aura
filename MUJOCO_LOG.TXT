@@ -1,6 +1,0 @@
-Wed Aug 27 09:33:37 2025
-ERROR: Default framebuffer is not complete, error 0x0
-
-Wed Aug 27 09:34:26 2025
-ERROR: Default framebuffer is not complete, error 0x0
-

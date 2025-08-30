@@ -1,0 +1,39 @@
+FROM python:3.10-slim
+LABEL maintainer="da.alvarezv@uniandes.edu.co"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    build-essential \
+    libgl1 \
+    libglib2.0-0 \
+    libsm6 \
+    libxrender1 \
+    libxext6 \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
+
+WORKDIR /app
+
+COPY main.py requirements.txt ./
+
+RUN pip install --no-cache-dir --upgrade pip
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN pip install --no-cache-dir \
+    git+https://github.com/openai/CLIP.git@dcba3cb2e2827b402d2701e7e1c7d9fed8a20ef1 \
+    git+https://github.com/facebookresearch/segment-anything.git@dca509fe793f601edb92606367a655c15ac00fdf
+
+RUN mkdir -p /app/Grounded-SAM-2
+
+
+RUN pip install --no-cache-dir -e /app/Grounded-SAM-2
+
+# EXPOSE 5000
+
+CMD ["python", "main.py"]
